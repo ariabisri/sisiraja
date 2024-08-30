@@ -11,12 +11,12 @@ class GalleryController extends Controller
     public function index()
     {
         $galeris = Galeri::all();
-        return view('index', ['galeris' => $galeris]);
+        return view('layouts.index', ['galeris' => $galeris]);
     }
 
     public function create()
     {
-        return view('create');
+        return view('layouts.create');
     }
 
     public function store(Request $request)
@@ -46,7 +46,7 @@ class GalleryController extends Controller
     public function edit($id)
     {
         $gallery = Galeri::findOrFail($id);
-        return view('edit', compact('gallery'));
+        return view('layouts.edit', compact('gallery'));
     }
 
     // Menangani permintaan update
