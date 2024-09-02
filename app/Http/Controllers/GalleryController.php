@@ -36,7 +36,7 @@ class GalleryController extends Controller
 
         return redirect()->route('galeris.index')->with('success', 'Galeri created successfully.');
     }
-
+    
     public function show(Galeri $galeri)
     {
         return view('layouts.show', compact('galeri'));
@@ -51,28 +51,31 @@ class GalleryController extends Controller
 
     // Menangani permintaan update
     public function update(Request $request, $id)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
-        ]);        
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
 
-        $gallery = Galeri::findOrFail($id);
-        $gallery->name = $request->input('name');
+    $galeri = Galeri::findOrFail($id);
+    $galeri->title = $request->input('title');
+    $galeri->description = $request->input('description');
 
-        if ($request->hasFile('image')) {
-            if ($gallery->image_path) {
-                Storage::disk('public')->delete($gallery->image_path);
-            }
-            $imagePath = $request->file('image')->store('galleries', 'public');
-            $gallery->image_path = $imagePath;
+    if ($request->hasFile('image')) {
+        // Hapus gambar lama jika ada
+        if ($galeri->image_path) {
+            Storage::disk('public')->delete($galeri->image_path);
         }
-
-        $gallery->save();
-        dd($gallery);
-
-        return redirect()->route('galeris.edit')->with('success', 'Gallery updated successfully');
+        // Simpan gambar baru
+        $path = $request->file('image')->store('images', 'public');
+        $galeri->image_path = $path;
     }
+
+    $galeri->save();
+
+    return redirect()->route('galleries.index')->with('success', 'Data updated successfully!');
+}
 
     public function destroy(Galeri $galeri)
     {

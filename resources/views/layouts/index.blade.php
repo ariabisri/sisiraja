@@ -7,8 +7,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>#</th>
+            <th>No</th>
             <th>Title</th>
+            <th>Description</th> <!-- Tambahkan header untuk deskripsi -->
             <th>Image</th>
             <th>Actions</th>
         </tr>
@@ -18,7 +19,8 @@
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $gallery->title }}</td>
-            <td><img src="{{ asset('storage/' . $gallery->image_path) }}" width="100"></td>
+            <td>{{ $gallery->description }}</td> <!-- Menampilkan deskripsi -->
+            <td><img src="{{ asset('storage/' . $gallery->image_path) }}" width="250" alt="{{ $gallery->title }}"></td>
             <td>
                 <a href="{{ route('galeris.edit', $gallery->id) }}" class="btn btn-warning">Edit</a>
                 <form action="{{ route('galeris.destroy', $gallery->id) }}" method="POST" style="display:inline-block;">
