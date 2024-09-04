@@ -11,7 +11,7 @@ class ArtikelController extends Controller
         public function index()
         {
             $artikels = artikel::all(); // Mengambil semua artikel dari database
-            return view('artikels.index', compact('artikels')); // Mengirim data ke view
+            return view('artikel.index', compact('artikels')); // Mengirim data ke view
         }
 
         // Menampilkan formulir untuk membuat artikel baru
