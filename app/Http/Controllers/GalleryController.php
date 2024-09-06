@@ -11,12 +11,12 @@ class GalleryController extends Controller
     public function index()
     {
         $galeris = Galeri::all();
-        return view('layouts.index', ['galeris' => $galeris]);
+        return view('galeri.index', ['galeris' => $galeris]);
     }
 
     public function create()
     {
-        return view('layouts.create');
+        return view('galeri.create');
     }
 
     public function store(Request $request)
@@ -39,14 +39,14 @@ class GalleryController extends Controller
     
     public function show(Galeri $galeri)
     {
-        return view('layouts.show', compact('galeri'));
+        return view('galeri.show', compact('galeri'));
     }
 
     // Menampilkan halaman edit
     public function edit($id)
     {
         $gallery = Galeri::findOrFail($id);
-        return view('layouts.edit', compact('gallery'));
+        return view('galeri.edit', compact('gallery'));
     }
 
     // Menangani permintaan update

@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
 
 
 Route::get('login', [LoginController::class, 'login'])->name('login');
@@ -39,6 +40,8 @@ Route::get('artikels/{id}', [ArtikelController::class, 'show'])->name('artikels.
 // Gallery Management
 
 Route::resource('galeris', GalleryController::class);
+Route::get('/gallery', [GalleryController::class, 'index'])->name('galeri.index');
+
 // Route untuk menampilkan halaman edit
 Route::get('/galeris/{id}/edit', [GalleryController::class, 'edit'])->name('edit');
 // Route untuk menangani pembaruan data
@@ -46,8 +49,11 @@ Route::put('/galeris/{id}/update', [GalleryController::class, 'update'])->name('
 //route kembali dari halaman update
 //  Route::get('/', [GalleryController::class, 'index'])->name('home');
 
+// Dashboard
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    return view ('layout.dashboard');
+    
 Route::get('/cobaview', function () {
     return view ('layout.app');
 });
-
 
