@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 
 
-Route::get('login', [LoginController::class, 'login'])->name('login');
+Route::get('/', [LoginController::class, 'login'])->name('login');
 Route::post('actionlogin', [LoginController::class, 'actionlogin'])->name('actionlogin');
 
-
-Route::get('home', [HomeController::class, 'index'])->name('home')->middleware('auth');
-Route::get('actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout')->middleware('auth');
+Route::get('home', [UserController::class, 'index'])->name('home')->middleware('auth');
+Route::post('actionlogout', [LoginController::class, 'actionlogout'])->name('actionlogout')->middleware('auth');
 
 Route::get('register', [RegisterController::class, 'register'])->name('register');
 Route::post('register/action', [RegisterController::class, 'actionregister'])->name('actionregister');
@@ -22,13 +22,12 @@ Route::post('register/action', [RegisterController::class, 'actionregister'])->n
 // user management
 Route::prefix('user')->group(function () {
 
-    Route::get('/', [HomeController::class, 'dashboard'])->name('dashboard');
-    Route::get('/index', [HomeController::class, 'index'])->name('index');
-    Route::get('/create', [HomeController::class, 'create'])->name('create');
-    Route::post('/store', [HomeController::class, 'store'])->name('store');
-    Route::get('/edit/{id}', [HomeController::class, 'edit'])->name('edit');
-    Route::put('/update/{id}', [HomeController::class, 'update'])->name('update');
-    Route::delete('/delete/{id}', [HomeController::class, 'delete'])->name('delete');
+    Route::get('/', [UserController::class, 'index'])->name('user.index');
+    Route::get('/create', [UserController::class, 'create'])->name('user.create');
+    Route::post('/store', [UserController::class, 'store'])->name('user.store');
+    Route::get('/edit/{id}', [UserController::class, 'edit'])->name('user.edit');
+    Route::put('/update/{id}', [UserController::class, 'update'])->name('user.update');
+    Route::delete('/delete/{id}', [UserController::class, 'delete'])->name('user.delete');
 
 });
 

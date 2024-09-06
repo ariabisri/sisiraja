@@ -28,13 +28,13 @@ class LoginController extends Controller
             return redirect('home');
         }else{
             Session::flash('error', 'Email atau Password Salah');
-            return redirect('login');
+            return redirect('/');
         }
     }
 
     public function actionlogout()
     {
         Auth::logout();
-        return redirect('home');
+        return redirect('/');
     }
 }

@@ -1,4 +1,4 @@
-@extends('layout.main')
+@extends('layout.app')
 @section('content')
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -11,7 +11,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Tambah User</li>
+              <li class="breadcrumb-item active">Edit User</li>
             </ol>
           </div>
         </div>
@@ -21,8 +21,9 @@
 
     <section class="content">
         <div class="container-fluid">
-            <form action="{{ route('store')}}" method="POST">
+            <form action="{{ route('user.update',['id' => $data->id]) }}" method="POST">
                 @csrf
+                @method('PUT')
                 <div class="row">
                     <!-- left column -->
                     <div class="col-md-6">
@@ -35,14 +36,14 @@
                         <div class="card-body">
                           <div class="form-group">
                             <label for="exampleInputEmail1">Email</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="Enter email">
+                            <input type="email" class="form-control" id="exampleInputEmail1" name="email" value="{{ $data->email }}" placeholder="Enter email">
                             @error('email')
                                 <small>{{ $message }}</small>
                             @enderror
                           </div>
                           <div class="form-group">
                               <label for="exampleInputUsername1">Username</label>
-                              <input type="text" class="form-control" id="exampleInputUsername1" name="username" placeholder="Enter name">
+                              <input type="text" class="form-control" id="exampleInputUsername1" name="username" value="{{ $data->username }}" placeholder="Enter name">
                               @error('username')
                                 <small>{{ $message }}</small>
                             @enderror
@@ -56,7 +57,7 @@
                           </div>
                           <div class="form-group">
                             <label for="role">Role</label>
-                            <input type="text" class="form-control" id="role" name="role" placeholder="Enter role">
+                            <input type="text" class="form-control" id="role" name="role" value="{{ $data->role }}" placeholder="Enter role">
                             @error('role')
                                 <small>{{ $message }}</small>
                             @enderror
