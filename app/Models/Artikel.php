@@ -7,7 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class artikel extends Model
 {
-    protected $table = 'articles';
-    protected $fillable = ['title', 'content'];
 
+    use HasFactory;
+
+    protected $table = 'articles';
+    protected $fillable = ['title', 'content', 'author', 'published_at', 'status'];
+
+    protected $casts = [
+        'published_at' => 'date',
+    ];
 }
