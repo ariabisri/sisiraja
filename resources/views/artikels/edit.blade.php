@@ -43,9 +43,12 @@
                         <h1 class="mb-0">Edit Artikel</h1>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('artikels.update', $artikel->id) }}" method="POST">
+                        <form action="{{ route('artikels.update', $artikel->id) }}" method="POST"
+                            enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
+
+                            <!-- Judul -->
                             <div class="form-group">
                                 <label for="title">Judul:</label>
                                 <input type="text" id="title" name="title" class="form-control"
@@ -54,6 +57,8 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                            <!-- Konten -->
                             <div class="form-group">
                                 <label for="content">Konten:</label>
                                 <textarea id="content" name="content" class="form-control" rows="5">{{ old('content', $artikel->content) }}</textarea>
@@ -61,38 +66,67 @@
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                            <!-- Penulis -->
                             <div class="form-group">
                                 <label for="author">Penulis:</label>
                                 <input type="text" id="author" name="author" class="form-control"
-                                    value="{{ old('author') }}">
+                                    value="{{ old('author', $artikel->author) }}">
                                 @error('author')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
+                            <!-- Uploader -->
+                            <div class="form-group">
+                                <label for="uploader">Uploader:</label>
+                                <input type="text" id="uploader" name="uploader" class="form-control"
+                                    value="{{ old('uploader', $artikel->uploader) }}">
+                                @error('uploader')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+                            <!-- Tanggal Terbit -->
                             <div class="form-group">
                                 <label for="published_at">Tanggal Terbit:</label>
                                 <input type="date" id="published_at" name="published_at" class="form-control"
-                                    value="{{ old('published_at') }}">
+                                    value="{{ old('published_at', $artikel->published_at) }}">
                                 @error('published_at')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
+                            <!-- Status -->
                             <div class="form-group">
                                 <label for="status">Status:</label>
                                 <select id="status" name="status" class="form-control">
-                                    <option value="draft" {{ old('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-                                    <option value="published" {{ old('status') == 'published' ? 'selected' : '' }}>
-                                        Published</option>
+                                    <option value="draft"
+                                        {{ old('status', $artikel->status) == 'draft' ? 'selected' : '' }}>Draft</option>
+                                    <option value="published"
+                                        {{ old('status', $artikel->status) == 'published' ? 'selected' : '' }}>Published
+                                    </option>
                                 </select>
                                 @error('status')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+
+                            <!-- Upload Banner -->
+                            <div class="form-group">
+                                <label for="banner">Ganti Banner:</label>
+                                <input type="file" id="banner" name="banner" class="form-control-file">
+                                @if ($artikel->banner)
+                                    <p>Banner saat ini: <img src="{{ asset($artikel->banner) }}" alt="Banner Artikel"
+                                            width="150"></p>
+                                @endif
+                                @error('banner')
+                                    <div class="text-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+
                             <button type="submit" class="btn btn-primary">Update</button>
-                            <a href="{{ route('artikels.index') }}" class="btn btn-secondary">Kembali ke Daftar
-                                Artikel</a>
+                            <a href="{{ route('artikels.index') }}" class="btn btn-secondary">Kembali ke Daftar Artikel</a>
                         </form>
                     </div>
                 </div>

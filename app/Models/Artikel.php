@@ -11,7 +11,7 @@ class artikel extends Model
     use HasFactory;
 
     protected $table = 'articles';
-    protected $fillable = ['title', 'content', 'author', 'published_at', 'status'];
+    protected $fillable = ['title', 'content', 'author', 'published_at', 'status', 'banner', 'uploader'];
 
     protected $casts = [
         'published_at' => 'date',

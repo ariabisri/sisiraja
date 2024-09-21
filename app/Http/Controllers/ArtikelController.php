@@ -41,15 +41,22 @@ class ArtikelController extends Controller
             'title' => 'required',
             'content' => 'required',
             'author' => 'required',
+            'uploader' => 'required',
+            'banner' => 'required',
             'published_at' => 'nullable|date',
             'status' => 'required|in:draft,published',
         ]);
 
+        $fileName = time() . '_' . $request->file('banner')->getClientOriginalName();
+        $filePath = $request->file('banner')->storeAs('uploads', $fileName, 'public');
+
         // Menyimpan artikel ke database
-        Artikel::create([
+        $artikel = Artikel::create([
             'title' => $request->title,
             'content' => $request->content,
             'author' => $request->author,
+            'uploader' => $request->uploader,
+            'banner' => '/storage/' . $filePath,
             'published_at' => $request->published_at,
             'status' => $request->status,
         ]);
@@ -71,19 +78,42 @@ class ArtikelController extends Controller
     }
 
     // Memperbarui artikel di database
-    public function update(Request $request, artikel $artikel)
+    public function update(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
             'title' => 'required',
             'content' => 'required',
             'author' => 'required',
+            'uploader' => 'required',
+            'banner' => 'nullable|image', // nullable jika tidak ingin mengganti banner
             'published_at' => 'nullable|date',
             'status' => 'required|in:draft,published',
         ]);
 
-        $artikel->update($request->all());
-        return redirect()->route('artikels.index');
+        // Mendapatkan artikel yang akan di-update
+        $artikel = Artikel::findOrFail($id);
+
+        // Mengupdate banner jika ada file baru yang di-upload
+        if ($request->hasFile('banner')) {
+            $fileName = time() . '_' . $request->file('banner')->getClientOriginalName();
+            $filePath = $request->file('banner')->storeAs('uploads', $fileName, 'public');
+            $artikel->banner = '/storage/' . $filePath;
+        }
+
+        // Update data lainnya ke database
+        $artikel->update([
+            'title' => $request->title,
+            'content' => $request->content,
+            'author' => $request->author,
+            'uploader' => $request->uploader,
+            'published_at' => $request->published_at,
+            'status' => $request->status,
+        ]);
+
+        return redirect()->route('artikels.index')->with('success', 'Artikel berhasil diperbarui!');
     }
+
 
     // Menghapus artikel dari database
     public function destroy(artikel $artikel)

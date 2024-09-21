@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ asset('LTE/plugins/fontawesome-free/css/all.min.css') }}">
 <link rel="stylesheet" href="{{asset('LTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css')}}">
 <link rel="stylesheet" href="{{asset('LTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css')}}">
-<link rel="stylesheet" href="{{asset('LTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">    
+<link rel="stylesheet" href="{{asset('LTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
 @endsection
 @section('content')
 <!-- Content Wrapper. Contains page content -->
@@ -31,10 +31,11 @@
       <div class="container-fluid">
         <div class="row">
           <div class="col-12">
-            
+
             <div class="card">
               <div class="card-header">
                 <h3 class="card-title">Daftar Artikel</h3>
+                <a href="{{ route('artikels.create') }}" class="btn btn-custom mb-3">Tambah Artikel Baru</a>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
@@ -56,7 +57,7 @@
                       <td>-</td>
                       <td>-</td>
                       <td>U</td>
-                    </tr>                        
+                    </tr>
                     @endforeach
                   </tbody>
                 </table>
@@ -92,7 +93,7 @@
 <script src="{{asset('LTE/plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
 <script>
     $(function () {
-      
+
       $('#tabel-artikel').DataTable({
         "paging": true,
         "lengthChange": false,
@@ -103,5 +104,5 @@
         "responsive": true,
       });
     });
-  </script>   
+  </script>
 @endsection

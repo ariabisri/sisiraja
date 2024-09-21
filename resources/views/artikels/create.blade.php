@@ -38,7 +38,7 @@
             <div class="container-fluid">
                 <div class="card p-4">
                     <h1 class="card-title mb-4">Tambah Artikel Baru</h1>
-                    <form action="{{ route('artikels.store') }}" method="POST">
+                    <form action="{{ route('artikels.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="title">Judul:</label>
@@ -67,6 +67,15 @@
                         </div>
 
                         <div class="form-group">
+                            <label for="uploader">Uploader:</label>
+                            <input type="text" id="uploader" name="uploader" class="form-control"
+                                value="{{ old('uploader') }}">
+                            @error('uploader')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
                             <label for="published_at">Tanggal Terbit:</label>
                             <input type="date" id="published_at" name="published_at" class="form-control"
                                 value="{{ old('published_at') }}">
@@ -87,11 +96,18 @@
                             @enderror
                         </div>
 
+                        <div class="form-group">
+                            <label for="banner">Upload Banner:</label>
+                            <input type="file" id="banner" name="banner" class="form-control-file">
+                            @error('banner')
+                                <div class="text-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <button type="submit" class="btn btn-primary">Simpan Artikel</button>
                     </form>
 
                     <a href="{{ route('artikels.index') }}" class="btn btn-secondary mt-3">Kembali ke Daftar Artikel</a>
-                    </form>
                 </div>
             </div>
         </section>

@@ -46,6 +46,7 @@ Route::put('/galeris/{id}/update', [GalleryController::class, 'update'])->name('
 //route kembali dari halaman update
 //  Route::get('/', [GalleryController::class, 'index'])->name('home');
 
+
 Route::get('/cobaview', function () {
     return view ('layout.app');
 });
