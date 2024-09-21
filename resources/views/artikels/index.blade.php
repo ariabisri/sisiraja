@@ -1,65 +1,122 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Daftar Artikel</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .card {
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-bottom: 20px;
-        }
-        .card-header {
-            background-color: #007bff;
-            color: white;
-            border-radius: 10px 10px 0 0;
-        }
-        .btn-custom {
-            background-color: #007bff;
-            color: white;
-        }
-        .btn-custom:hover {
-            background-color: #0056b3;
-            color: white;
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="card">
-            <div class="card-header">
-                <h1 class="mb-0">Daftar Artikel</h1>
-            </div>
-            <div class="card-body">
-                <a href="{{ route('artikels.create') }}" class="btn btn-custom mb-3">Tambah Artikel Baru</a>
-                @if($artikels->isEmpty())
-                    <p>Belum ada artikel.</p>
-                @else
-                    <ul class="list-group">
-                        @foreach ($artikels as $artikel)
-                            <li class="list-group-item d-flex justify-content-between align-items-center">
-                                <a href="{{ route('artikels.show', $artikel->id) }}">{{ $artikel->title }}</a>
-                                <div>
-                                    <a href="{{ route('artikels.edit', $artikel->id) }}" class="btn btn-warning btn-sm">Edit</a>
-                                    <form action="{{ route('artikels.destroy', $artikel->id) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                    </form>
-                                </div>
-                            </li>
-                        @endforeach
-                    </ul>
-                @endif
-            </div>
-        </div>
-    </div>
+@extends('layout.app')
+@section('style')
+    <!-- DataTables -->
+    <link rel="stylesheet" href="{{ asset('LTE/plugins/fontawesome-free/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('LTE/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('LTE/plugins/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('LTE/plugins/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
+@endsection
+@section('content')
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Artikel</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item active">Artikel</li>
+                        </ol>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
-</html>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Daftar Artikel</h3>
+                            </div>
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <a href="{{ route('artikels.create') }}" class="btn btn-primary mb-3">Tambah Artikel
+                                    Baru</a>
+                                <table id="tabel-artikel" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Judul</th>
+                                            <th>Penulis</th>
+                                            <th>Tanggal Terbit</th>
+                                            <th>Status</th>
+                                            <th>Uploader</th>
+                                            <th>Banner</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($artikels as $artikel)
+                                            <tr>
+                                                <td>{{ $artikel->title }}</td>
+                                                <td>{{ $artikel->author }}</td>
+                                                <td>{{ $artikel->published_at }}</td>
+                                                <td>{{ $artikel->status }}</td>
+                                                <td>{{ $artikel->uploader }}</td>
+                                                <td><img height="100" src="{{ $artikel->banner }}" alt=""></td>
+                                                <td>
+                                                    <a href="{{ route('artikels.edit', $artikel->id) }}"
+                                                        class="btn btn-warning btn-sm">Edit</a>
+                                                    <form action="{{ route('artikels.destroy', $artikel->id) }}"
+                                                        method="POST" style="display:inline;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                </div>
+                <!-- /.row -->
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+@endsection
+@section('script')
+    <script src="{{ asset('LTE/plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <!-- DataTables  & Plugins -->
+    <script src="{{ asset('LTE/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('LTE/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('LTE/plugins/datatables-responsive/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('LTE/plugins/datatables-responsive/js/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('LTE/plugins/datatables-buttons/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('LTE/plugins/datatables-buttons/js/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('LTE/plugins/jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('LTE/plugins/pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('LTE/plugins/pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('LTE/plugins/datatables-buttons/js/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('LTE/plugins/datatables-buttons/js/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('LTE/plugins/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
+    <script>
+        $(function() {
+
+            $('#tabel-artikel').DataTable({
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": false,
+                "responsive": true,
+            });
+        });
+    </script>
+@endsection
